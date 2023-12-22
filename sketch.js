@@ -1,20 +1,48 @@
-// setup() is called once at page-load
+let lastSecond = -1; // Initialize lastSecond to an invalid value
+
 function setup() {
-    createCanvas(800,600); // make an HTML canvas element width x height pixels
+  createCanvas(600, 400);
+  frameRate(1); // Set frame rate to 1 frame per second
 }
 
-// draw() is called 60 times per second
 function draw() {
-    let hr = hour();
-    let min = minute();
-    let sec = second();
+  const currentSecond = second();
 
-    background(225);
-    textSize(32);
-    fill(180);
-    text(hr, 10, 30);
-    fill(100);
-    text(min, 10, 60);
-    fill(0);
-    text(sec, 10, 90);
+  // Check if the second has changed
+  if (currentSecond !== lastSecond) {
+    background(255); // Clear the background
+
+    drawClockGrid(15, 12, width, height);
+    lastSecond = currentSecond; // Update lastSecond
+  }
+}
+
+function drawClockGrid(rows, cols, width, height) {
+  const cellWidth = width / cols;
+  const cellHeight = height / rows;
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      const x = j * cellWidth;
+      const y = i * cellHeight;
+
+      // Determine the section based on the column index
+      const section = floor(j / 4); // Divide into three sections (0, 1, 2)
+
+      // Use the current time values for coloring
+      const redValue = section === 0 ? hour() * 10 : 0;
+      const greenValue = section === 1 ? minute() * 4 : 0;
+      const blueValue = section === 2 ? second() * 4 : 0;
+
+      fill(redValue, greenValue, blueValue);
+      stroke(255);
+      rect(x, y, cellWidth, cellHeight);
+
+      fill(255);
+      noStroke();
+      textAlign(CENTER, CENTER);
+      textSize(10);
+      text(`${i + 1}, ${j + 1}`, x + cellWidth / 2, y + cellHeight / 2);
+    }
+  }
 }
