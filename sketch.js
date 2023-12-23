@@ -1,48 +1,54 @@
-let lastSecond = -1; // Initialize lastSecond to an invalid value
-
 function setup() {
-  createCanvas(600, 400);
-  frameRate(1); // Set frame rate to 1 frame per second
+  createCanvas(800, 800);
+  setInterval(printCurrentMinute, 60000);
+  angleMode(DEGREES);
+  colorMode(HSB, 90);
 }
 
 function draw() {
-  const currentSecond = second();
+  background(220);
+  let h = hour();
+  let m = minute();
+  let s = second();
 
-  // Check if the second has changed
-  if (currentSecond !== lastSecond) {
-    background(255); // Clear the background
+  // Draw hours
+  for (let k = 0; k < 24; k++) {
+    let x = 200 + 100 * cos(k * 15 - 90);
+    let y = 200 + 100 * sin(k * 15 - 90);
+    if (k === h) {
+      fill(150, 100, 100);
+    } else {
+      fill(150, 40, 40);
+    }
+    circle(x, y, 50);
+  }
 
-    drawClockGrid(15, 12, width, height);
-    lastSecond = currentSecond; // Update lastSecond
+  // Draw seconds
+  for (let i = 0; i < 60; i++) {
+    let x = 200 + 100 * cos(i * 6 - 90);
+    let y = 200 + 100 * sin(i * 6 - 90);
+    if (i === s) {
+      fill(150, 100, 100);
+    } else {
+      fill(150, 40, 40);
+    }
+    circle(x + 500, y, 50);
+  }
+
+  // Draw minutes
+  for (let j = 0; j < 60; j++) {
+    let x = 200 + 100 * cos(j * 6 - 90);
+    let y = 200 + 100 * sin(j * 6 - 90);
+    if (j === m) {
+      fill(150, 100, 100);
+    } else {
+      fill(150, 40, 40);
+    }
+    circle(x + 250, y, 50);
   }
 }
 
-function drawClockGrid(rows, cols, width, height) {
-  const cellWidth = width / cols;
-  const cellHeight = height / rows;
-
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      const x = j * cellWidth;
-      const y = i * cellHeight;
-
-      // Determine the section based on the column index
-      const section = floor(j / 4); // Divide into three sections (0, 1, 2)
-
-      // Use the current time values for coloring
-      const redValue = section === 0 ? hour() * 10 : 0;
-      const greenValue = section === 1 ? minute() * 4 : 0;
-      const blueValue = section === 2 ? second() * 4 : 0;
-
-      fill(redValue, greenValue, blueValue);
-      stroke(255);
-      rect(x, y, cellWidth, cellHeight);
-
-      fill(255);
-      noStroke();
-      textAlign(CENTER, CENTER);
-      textSize(10);
-      text(`${i + 1}, ${j + 1}`, x + cellWidth / 2, y + cellHeight / 2);
-    }
-  }
+function printCurrentMinute() {
+  const m = minute();
+  console.log(m);
 }
