@@ -20,7 +20,7 @@ function draw() {
     } else {
       fill(150, 40, 40);
     }
-    circle(x, y, 50);
+    circle(x, y, 40);
   }
 
   // Draw seconds
@@ -32,7 +32,7 @@ function draw() {
     } else {
       fill(150, 40, 40);
     }
-    circle(x + 500, y, 50);
+    circle(x + 500, y, 40);
   }
 
   // Draw minutes
@@ -44,7 +44,7 @@ function draw() {
     } else {
       fill(150, 40, 40);
     }
-    circle(x + 250, y, 50);
+    circle(x + 250, y, 40);
   }
 }
 
